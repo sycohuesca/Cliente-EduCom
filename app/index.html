@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Educom</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/materialize/bin/materialize.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body ng-app="educomApp" ng-controller="MenulateralCtrl as menu">
+
+    <nav>
+        <div class="nav-wrapper barraPrincipal">
+            <a href="#/home" class="brand-logo center"><img class="responsive-img logo" src="images/logotipo.png" alt="Logo de EduCom." /></a>
+
+
+
+            <ul class="right hide-on-med-and-down">
+
+                <a href="#" ng-click="menu.salir()" class="right"><i class="Medium material-icons left">power_settings_new</i>
+                    </a>
+                <div class="divider"></div>
+            </ul>
+
+            <ul id="slide-out" class="side-nav collapsible" data-collapsible="accordion">
+
+                <div class="valign-wrapper card-panel">
+                    <h5 class="valign">{{menu.nombre}}</h5>
+                </div>
+                <li>
+                    <div class="collapsible-header">
+                        <a class="menuEnlace" ng-click="menu.cerrar()" href="#/home" class="entrarGrupo collection-item">Grupos<i class="material-icons left">forum</i></a>
+                    </div>
+                </li>
+                <div class="divider"></div>
+                <li>
+                    <div class="collapsible-header">
+                        <a href="#/administrar" ng-click="menu.cerrar()" class="collection-item"><i class="material-icons left">settings</i>Configurar </a>
+                    </div>
+                </li>
+                <div class="divider"></div>
+                <li ng-show="menu.tipo==1? true:false">
+                    <div class="collapsible-header"><i class="material-icons">settings</i>Administración</div>
+                    <div class="collapsible-body collection">
+                        <a ng-click="menu.cerrar()" href="#/centro" class="collection-item"> Centro<i class="material-icons left">business</i></a>
+                        <a ng-click="menu.cerrar()" href="#/usuarios" class="collection-item">Usuarios<i class="material-icons left">perm_identity</i></a>
+                        <a ng-click="menu.cerrar()" href="#/grupos" class="collection-item">Grupos<i class="material-icons left">forum</i></a>
+                        <a ng-click="menu.cerrar()" href="#/tipos" class="collection-item">Tipos<i class="material-icons left">supervisor_account</i></a>
+                    </div>
+                </li>
+
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <li>
+                    <div class="collapsible-header">
+                        <a href="#" ng-click="menu.salir()" class="collection-item"><i class="material-icons left">power_settings_new</i>Salir</a>
+                    </div>
+                </li>
+            </ul>
+            <a href="#" class="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="250" data-closeonclick="false"><i class="mdi-navigation-menu"></i></a>
+        </div>
+    </nav>
+    <div class="row">
+        <div id="panelLateral" class="col s12 m4 l3">
+            <ul class="hide-on-med-and-down">
+                <div class="card-panel">
+                    <h4 class="center-align">¡ Bienvenido !</h4>
+                </div>
+
+                <ul class="collapsible" data-collapsible="accordion">
+
+                    <li class="collection-header">
+                        <div class="collapsible-header"><i class="material-icons">perm_identity</i>
+
+                            <strong class="nombrePanel">{{menu.nombre}}</strong></div>
+                        <div class="collapsible-body collection">
+                            <div class="collection-item"><i class="material-icons left">business</i> <span class="centronombrePanel">{{menu.centro}}</span></div>
+                            <a href="#/administrar" class="collection-item">Configurar Usuario<i class="material-icons left">settings</i></a>
+                            <a href="#" ng-click="menu.salir()" class="collection-item"><i class="material-icons left">power_settings_new</i>Salir</a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="collapsible-header">
+                            <a class="menuEnlace" href="#/home" class="entrarGrupo collection-item">Grupos<i class="material-icons left">forum</i></a>
+                        </div>
+                    </li>
+
+                    <li ng-show="menu.tipo==1? true:false">
+                        <div class="collapsible-header"><i class="material-icons">settings</i>Administración</div>
+                        <div class="collapsible-body collection">
+                            <a id="administarCentroA" href="#/centro" class="collection-item">Administrar Centro<i class="material-icons left">business</i></a>
+                            <a id="administarUsuariosA" href="#/usuarios" class="collection-item">Administrar Usuarios<i class="material-icons left">perm_identity</i></a>
+                            <a id="administarGruposA" href="#/grupos" class="collection-item">Administrar Grupos<i class="material-icons left">forum</i></a>
+                            <a id="administarTiposA" href="#/tipos" class="collection-item">Administrar Tipos<i class="material-icons left">supervisor_account</i></a>
+                        </div>
+                    </li>
+
+
+                </ul>
+            </ul>
+        </div>
+
+        <div id="texto" class="col s12 m12 l9">
+            <div ng-view></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/materialize/bin/materialize.js"></script>
+    <script src="bower_components/angular-materialize/src/angular-materialize.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/myfactory.js"></script>
+    <script src="scripts/services/myservice.js"></script>
+    <script src="scripts/controllers/menulateral.js"></script>
+    <script src="scripts/controllers/panelgrupos.js"></script>
+    <script src="scripts/controllers/panelmensajes.js"></script>
+    <script src="scripts/controllers/panelusuario.js"></script>
+    <script src="scripts/controllers/adminusuarios.js"></script>
+    <script src="scripts/controllers/admintipos.js"></script>
+    <script src="scripts/controllers/admincentro.js"></script>
+    <script src="scripts/controllers/admingrupos.js"></script>
+    <!-- endbuild -->
+</body>
+
+</html>
