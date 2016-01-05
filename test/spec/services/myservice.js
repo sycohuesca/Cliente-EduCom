@@ -2,17 +2,17 @@
 
 describe('Service: myService', function () {
 
-  // load the service's module
-  beforeEach(module('educomApp'));
+    // load the service's module
+    beforeEach(module('educomApp'));
 
-  // instantiate service
-  var myService;
-  beforeEach(inject(function (_myService_) {
-    myService = _myService_;
-  }));
+    // instantiate service
+    var myService;
+    beforeEach(inject(function (_myService_) {
+        myService = _myService_;
+    }));
 
-  it('should do something', function () {
-    expect(!!myService).toBe(true);
-  });
+    it('should do something', function () {
+        expect(!!myService).toBe(true);
+    });
 
 });
