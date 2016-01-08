@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>EduCom</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles/vendor.14951d56.css">
+    <style>
+        .icon-block {
+            padding: 0 15px;
+        }
+
+        .icon-block .material-icons {
+            font-size: inherit;
+        }
+
+        #loginpanel {
+            width: 360px;
+            margin-top: 80px;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #signin-button {
+            padding: 5px;
+        }
+
+        #oauth2-results pre {
+            margin: 0;
+            padding: 0;
+            width: 600px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body ng-app="login" ng-controller="loginCtrl as login">
+    <div class="row">
+        <div class="col s12 m6 l4 offset-m3 offset-l4">
+            <form ng-submit="login.enviar()">
+                <div id="loginpanel" class="card-panel center-align">
+                    <div class="container">
+                        <h5>Login:</h5>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input ng-model="login.nombre" id="nombreCrear" type="text" required>
+                                <label ng-class="login.activar()" for="nombreCrear"> Usuario:</label>
+                            </div>
+                            <div class="limpi input-field col s12">
+                                <input ng-model="login.pass" id="passwordCrear" type="password" required>
+                                <label ng-class="login.activar()" for="passwordCrear">Password:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col l12">
+                                <button class="btn waves-effect waves-light" type="submit">Enviar <i class="material-icons right">send</i> </button>
+                                <div>
+                                    <p></p>
+                                </div>
+                                <div id="renderMe"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--fin container-->
+    <script src="https://apis.google.com/js/client:platform.js"></script>
+    <script src="scripts/vendor.e6e7a4ac.js"></script>
+    <script>
+        var url = "http://localhost:8080/EduCom/webresources/logins/";
+        angular.module('login', ['ngCookies'])
+            .controller("loginCtrl", loginCtrl);
+
+        function loginCtrl($http, $cookies, $window) {
+            var loginFinished = function (authResult) {
+                gapi.client.load('oauth2', 'v2', function () {
+                    gapi.client.oauth2.userinfo.get()
+                        .execute(function (resp) {
+                            $http.get(url + "user=" + resp.email).success(function (data) {
+                                if ($.isEmptyObject(data)) {
+                                    alert("Usuario no registrado.");
+                                } else {
+                                    $cookies.put("idUsuario", data.idUsuario.idUsuario);
+                                    alert("Bienvenido " + data.idUsuario.nombre);
+                                    $window.location.href = "index.html";
+                                }
+                            });
+                        });
+                });
+
+            };
+            var options = {
+                'callback': loginFinished,
+                'approvalprompt': 'force',
+                'clientid': '383649619527-ke06it4ka2iv091mfdqnii65jmcqi30f.apps.googleusercontent.com',
+                'scope': 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+                'requestvisibleactions': 'http://schemas.google.com/CommentActivity http://schemas.google.com/ReviewActivity',
+                'cookiepolicy': 'single_host_origin'
+            };
+            gapi.signin.render('renderMe', options);
+
+            var model = this;
+
+            model.nombre = "";
+            model.pass = "";
+
+            model.enviar = enviar;
+            model.activar = activar;
+
+            function enviar() {
+                $http.get(url + "usuarios/" + model.nombre + "/" + model.pass).success(function (data) {
+                    if ($.isEmptyObject(data)) {
+                        alert("Usuario y password incorrectos.");
+                    } else {
+                        $cookies.put("idUsuario", data.idUsuario.idUsuario);
+                        alert("Bienvenido " + data.idUsuario.nombre);
+                        $window.location.href = "index.html";
+                    }
+                });
+            }
+
+            function activar() {
+                if (model.nombre || model.pass) {
+                    return "active";
+                } else {
+                    return "";
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>
